@@ -1,0 +1,58 @@
+<!doctype html>
+<html>
+<head>
+  <title>Datastore and Firebase Auth Example</title>
+  <script src="{{ url_for('static', filename='script.js') }}"></script>
+  <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <script src="https://www.gstatic.com/firebasejs/ui/4.4.0/firebase-ui-auth.js"></script>
+  <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/4.4.0/firebase-ui-auth.css" />
+</head>
+<body>
+
+
+  <nav>
+    <ul>
+      <a href="#" id="sign-out">Signout</a>
+      <li style="float:right"><a class="active" href="#about">{% if user_data %} 
+        {{ user_data['name'] }}
+      {% elif error_message %} {{ Login }} {% endif %}</a></li>
+    </ul>
+  
+  </nav>
+    
+  
+
+  <div id = "main">
+
+    <div id="firebase-auth-container"></div>
+
+    <div id="login-info" hidden="true">
+          {% if user_data %}
+              
+              <h1>Gallery</h1>
+              <div class="importing">
+                
+                {% for i in image_list %}
+                    
+                  <div class = "boxing"><form action="/delete_file/{{ i.name | replace(direct, '') }}" method="post"><a href="https://storage.cloud.google.com/photoshare-6a1b3.appspot.com/{{ direct | replace('@','%40') | replace('/','')}}/{{ i.name | replace(direct, '') }}?authuser=1">
+                    <img src="https://storage.cloud.google.com/photoshare-6a1b3.appspot.com/{{ direct | replace('@','%40') | replace('/','')}}/{{ i.name | replace(direct, '') }}?authuser=1" alt="{{ i.name | replace(direct, '') }}" id ="zoom"></a><br><br><input type="submit" value = "Delete"/><br/>
+                    </form></div>
+                {% endfor %}
+              </div>
+            {% endif %}
+        
+
+        <div id ="storage">
+          <h1>Storage</h1>
+            Storage: {{ storage_size }} out of 50MB
+        </div>
+    </div>
+
+  </div>
+  <script src="https://www.gstatic.com/firebasejs/7.14.5/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/7.8.0/firebase-auth.js"></script>
+  <script src="{{ url_for('static', filename='app-setup.js') }}"></script>
+  
+
+</body>
+</html>
